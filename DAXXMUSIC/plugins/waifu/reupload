@@ -1,0 +1,315 @@
+import os
+import asyncio
+import requests
+from pyrogram import filters
+from DAXXMUSIC import CHARA_CHANNEL_ID, collection, require_power, app as ZYRO
+
+UPLOAD_API = "https://api.imgbb.com/1/upload"
+IMGBB_API_KEYS = [
+    "597b4dafe768f0e8e6a03f4e1b8b5010",
+    "b1595fee26f464c23d4e619f79189ff2",
+    "095543415074fd6eea838cec099824ea"
+]
+
+# List of broken IDs to auto-reupload on startup
+BROKEN_IDS = [
+    1150, 1694, 1783, 1779, 1770, 2133, 2159, 2441, 1836, 2468, 1992, 2002, 2159, 2433, 2455, 2455, 
+    2408, 2436, 2334, 2432, 2446, 2431, 2420, 2411, 2434, 2420, 2435, 2477, 2487, 2505, 2507, 2530, 
+    2531, 2532, 2533, 2535, 2545, 2552, 2577, 2586, 2665, 2699, 2751, 2754, 2794, 2876, 2880, 2479, 
+    2481, 2483, 2513, 2519, 2524, 2539, 2542, 2544, 2556, 2582, 2588, 2749, 2790, 2795, 2798, 2802, 
+    2805, 2872, 2883, 2892, 2901, 2905, 2910, 2911, 2919, 2474, 2482, 2501, 2506, 2517, 2523, 2538, 
+    2551, 2584, 2590, 2760, 2800, 2871, 2873, 2882, 2887, 2888, 2889, 2894, 2897, 2898, 2899, 2914, 
+    2926, 2881, 2890, 2907, 2925, 2476, 2504, 2512, 2520, 2541, 2546, 2547, 2578, 2579, 2587, 2591, 
+    2592, 2666, 2756, 2785, 2787, 2797, 2799, 2875, 2884, 2912, 2478, 2480, 2486, 2488, 2502, 2508, 
+    2510, 2522, 2525, 2537, 2633, 2699, 2757, 2788, 2789, 2803, 2878, 2886, 2891, 2902, 2903, 2911, 
+    2915, 2920, 2469, 2511, 2516, 2518, 2534, 2536, 2540, 2543, 2554, 2581, 2585, 2593, 2698, 2749, 
+    2755, 2786, 2791, 2796, 2874, 2879, 2893, 2904, 2906, 2916, 2936, 2470, 2515, 2526, 2555, 2948, 
+    2792, 2806, 2814, 2877, 2896, 2908, 2909, 2913, 2917, 2918, 2475, 2485, 2500, 2503, 2509, 2514, 
+    2521, 2527, 2529, 2580, 2589, 2752, 2753, 2759, 2801, 2885, 2895, 3179, 3187, 3245, 3311, 3404, 
+    3009, 3178, 3185, 3191, 3225, 3176, 3177, 3180, 3181, 3192, 3226, 3145, 3315, 3377, 3387, 3394, 
+    3454, 3412, 3174, 3190, 3194, 3310, 3367, 3368, 3154, 3402, 3124, 3182, 3184, 3186, 3335, 3438, 
+    3439, 3183, 3227, 3295, 3405, 3010, 3021, 3175, 3196, 3305, 3309, 3363, 3386, 3011, 3023, 3195, 
+    3314, 3366, 3369, 3151, 3437, 3908, 3933, 3903, 4088, 3943, 3866, 3944, 4065, 4061, 3942, 4041, 
+    3954, 4040, 4060, 3935, 4039, 4066, 4223, 4224, 4264, 4265, 4266, 4267, 4268, 4269, 4270, 4271, 
+    4272, 4273, 4274, 4300, 4331, 4386, 4442, 4457, 4883, 4894, 4896, 4909, 4910, 4911, 4912, 4913, 
+    4917, 4918, 4920, 4921, 4924, 4926, 4927, 4928, 4929, 4930, 4931, 4934, 4938, 4949, 4916, 4954, 
+    4958, 4968, 4969, 4970, 4971, 4972, 4975, 4982, 4984, 4985, 4986, 5013, 5014, 5015, 5030, 5031, 
+    5032, 5070, 5083, 5085, 5087, 5090, 5093, 5095, 5094, 5096, 5099, 5100, 5101, 5102, 5103, 5104, 
+    5135, 5136, 5137, 5139, 5140, 5169, 5177, 5192, 5193, 5194, 5202, 5211, 5212, 5320, 5411, 5430, 
+    5431, 5432, 5433, 5435, 5436, 5437, 5438, 5493, 5502, 5503, 5595, 5596, 5642, 5650, 5651, 5652, 
+    5653, 5654, 5655, 5689, 5732, 5733, 5640, 5683, 5869, 5883, 5884, 5886, 6070, 6071, 5998, 6103, 
+    6104, 6105, 6106, 6107, 6135, 6167, 6504, 6565, 6566, 6567, 6612, 6597, 6918, 6922, 6976, 6987, 
+    7032, 7033, 7034, 7035, 7140, 7234, 7291, 7292, 7293, 7294, 7309, 7310, 7372, 7373, 7374, 7375, 
+    7378, 7485, 7486, 7495, 7496, 7497, 7498, 7499, 7500, 7501, 7522, 7652, 7660, 7693, 7694, 7705, 
+    7713, 7714, 7723, 7724, 7730, 7780, 7781, 7826, 7942, 7943, 7944, 7945, 7948, 7949, 7811, 8017, 
+    8018, 8019, 8020, 8051, 8052, 8057, 8065, 8066, 8067, 8068, 8073, 8074, 8075, 8077, 8078, 7965, 
+    8122, 8123, 8120, 8133, 8143, 8144, 8157, 8240, 8241, 8242, 8243, 8244, 8266, 8267, 8268, 8269, 
+    8384, 8385, 8437, 8438, 8506, 8516, 8517, 8518, 8519, 8533, 8534, 8535, 8536, 8537, 8538, 8539, 
+    8571, 8581, 8582, 8584, 8585, 8586, 8587, 8592, 8596, 8597, 8598, 8599, 8600, 8601, 8602, 8603, 
+    8604, 8605, 8607, 8680, 8682, 8683, 8762, 8763, 8765, 8766, 8767, 8780, 9058
+]
+
+# ─────────────────────────────────────────────────
+#  /reupload <id1> <id2> <id3> ...
+#
+#  Flow for each ID:
+#   1. Fetch existing (broken) img_url from DB
+#   2. Bot sends_photo with that URL to CHARA_CHANNEL_ID
+#      → Telegram downloads from its cache
+#   3. Bot downloads the photo via Telegram file_id
+#   4. Re-uploads to ImgBB → gets fresh URL
+#   5. Updates img_url in DB (matched by exact stored id)
+#   6. Deletes the temp Telegram message
+# ─────────────────────────────────────────────────
+
+
+def upload_to_imgbb(file_path: str) -> str:
+    """Upload a local file to ImgBB trying multiple API keys on failure."""
+    errors = []
+    for idx, api_key in enumerate(IMGBB_API_KEYS):
+        try:
+            with open(file_path, "rb") as f:
+                response = requests.post(
+                    UPLOAD_API,
+                    data={"key": api_key},
+                    files={"image": f},
+                    timeout=60,
+                )
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success"):
+                    return data["data"]["url"]
+                else:
+                    errors.append(f"Key {idx} returned success=False: {data.get('error', {}).get('message', 'Unknown Error')}")
+            else:
+                errors.append(f"Key {idx} failed with status {response.status_code}: {response.text}")
+        except Exception as e:
+            errors.append(f"Key {idx} exception: {e}")
+            
+    raise Exception(f"All ImgBB keys failed to upload. Errors: {'; '.join(errors)}")
+
+
+async def find_char(char_id: str):
+    """
+    Try multiple ID formats because MongoDB may store as string "60"
+    or zero-padded "60" or integer 60.
+    """
+    # Try as-is string
+    char = await collection.find_one({"id": char_id})
+    if char:
+        return char
+
+    # Try zero-padded string e.g. "60" → already tried, try "060"
+    padded = char_id.zfill(2)
+    if padded != char_id:
+        char = await collection.find_one({"id": padded})
+        if char:
+            return char
+
+    # Try integer
+    try:
+        char = await collection.find_one({"id": int(char_id)})
+        if char:
+            return char
+    except ValueError:
+        pass
+
+    return None
+
+
+@ZYRO.on_message(filters.command(["reupload"]))
+@require_power("add_character")
+async def reupload_handler(client, message):
+    """
+    Usage:
+      /reupload 60
+      /reupload 30 60 61 100
+    """
+    args = message.text.split()[1:]
+
+    if not args:
+        return await message.reply_text(
+            "❌ **Wrong format!**\n\n"
+            "Usage:\n"
+            "`/reupload 60`\n"
+            "`/reupload 30 60 61 100`"
+        )
+
+    status_msg = await message.reply_text(
+        f"⏳ Processing **{len(args)}** character(s)…"
+    )
+
+    results = []
+    success = 0
+    fail    = 0
+
+    for char_id in args:
+        char_id  = char_id.strip()
+        path     = None
+        sent_msg = None
+
+        try:
+            # ── Step 1: Find character in DB ───────
+            char = await find_char(char_id)
+            if not char:
+                results.append(f"❌ `{char_id}` — not found in DB")
+                fail += 1
+                continue
+
+            stored_id = char.get("id")           # exact value stored in DB
+            name      = char.get("name", "?")
+            old_url   = char.get("img_url", "")
+
+            if not old_url:
+                results.append(f"❌ `{char_id}` ({name}) — no img_url in DB")
+                fail += 1
+                continue
+
+            # ── Step 2: Send photo to CHARA_CHANNEL_ID ─────────
+            # Telegram fetches image from its cache using the old URL
+            try:
+                sent_msg = await client.send_photo(
+                    chat_id=CHARA_CHANNEL_ID,
+                    photo=old_url,
+                    caption=f"#reupload id:{char_id}"
+                )
+            except Exception as send_err:
+                results.append(f"❌ `{char_id}` ({name}) — Telegram send failed: `{str(send_err)[:80]}`")
+                fail += 1
+                continue
+
+            # ── Step 3: Download from Telegram ─────
+            tmp_file = f"/tmp/reupload_{char_id}.jpg"
+            os.makedirs("/tmp", exist_ok=True)
+            path = await client.download_media(
+                sent_msg.photo.file_id,
+                file_name=tmp_file
+            )
+
+            if not path or not os.path.exists(path):
+                raise Exception("Download from Telegram returned empty file")
+
+            file_size = os.path.getsize(path)
+            if file_size < 100:
+                raise Exception(f"Downloaded file too small ({file_size} bytes) — image may be invalid")
+
+            # ── Step 4: Upload to ImgBB ──────────
+            new_url = upload_to_imgbb(path)
+
+            # ── Step 5: Update MongoDB ─────────────
+            # Match using the exact stored_id value (preserves original type)
+            update_result = await collection.update_one(
+                {"id": stored_id},
+                {"$set": {"img_url": new_url, "status": "working"}}
+            )
+
+            if update_result.matched_count == 0:
+                raise Exception(f"DB match failed for id={stored_id!r} (type={type(stored_id).__name__})")
+
+            if update_result.modified_count == 0:
+                results.append(f"⚠️ `{char_id}` ({name}) — matched but not modified (same URL?)")
+            else:
+                results.append(f"✅ `{char_id}` **{name}**\n   └ `{new_url}`")
+                success += 1
+
+        except Exception as e:
+            results.append(f"❌ `{char_id}` — `{str(e)[:120]}`")
+            fail += 1
+
+        finally:
+            # Delete temp Telegram message
+            if sent_msg:
+                try:
+                    await sent_msg.delete()
+                except Exception:
+                    pass
+            # Delete local file
+            if path and os.path.exists(path):
+                try:
+                    os.remove(path)
+                except Exception:
+                    pass
+
+            # Small delay to avoid flood
+            await asyncio.sleep(0.5)
+
+    # ── Final summary ─────────────────────────────
+    summary = "\n".join(results)
+    await status_msg.edit(
+        f"**📦 Reupload Complete**\n"
+        f"✅ Success: **{success}**  |  ❌ Failed: **{fail}**\n\n"
+        f"{summary}"
+    )
+
+# ── Background startup task to auto-reupload broken characters ──
+async def auto_reupload_on_startup():
+    await asyncio.sleep(15)  # Wait for Pyrogram client initialization
+    
+    # Wait until bot is connected
+    while not ZYRO.is_connected:
+        await asyncio.sleep(3)
+        
+    print(f"[REUPLOAD] Startup task: Checking {len(BROKEN_IDS)} target character IDs...")
+    
+    for char_id in BROKEN_IDS:
+        char_id_str = str(char_id)
+        path = None
+        sent_msg = None
+        
+        try:
+            char = await find_char(char_id_str)
+            if not char:
+                continue
+            
+            stored_id = char.get("id")
+            name = char.get("name", "?")
+            old_url = char.get("img_url", "")
+            
+            if not old_url:
+                continue
+                
+            # If status is already working or it's a freshly updated ImgBB URL, skip it
+            if char.get("status") == "working" or "imgbb.com" in old_url:
+                continue
+
+            print(f"[REUPLOAD] Auto-Reuploading: {char_id} ({name})...")
+            
+            # Send photo to channel to fetch cache
+            sent_msg = await ZYRO.send_photo(
+                chat_id=CHARA_CHANNEL_ID,
+                photo=old_url,
+                caption=f"#auto_reupload id:{char_id}"
+            )
+            
+            tmp_file = f"/tmp/auto_reupload_{char_id}.jpg"
+            os.makedirs("/tmp", exist_ok=True)
+            path = await ZYRO.download_media(
+                sent_msg.photo.file_id,
+                file_name=tmp_file
+            )
+            
+            if path and os.path.exists(path) and os.path.getsize(path) >= 100:
+                new_url = upload_to_imgbb(path)
+                await collection.update_one(
+                    {"id": stored_id},
+                    {"$set": {"img_url": new_url, "status": "working"}}
+                )
+                print(f"[REUPLOAD] Completed: {char_id} ({name}) -> {new_url}")
+            
+        except Exception as e:
+            print(f"[REUPLOAD] Failed auto-reupload for ID {char_id}: {e}")
+        finally:
+            if sent_msg:
+                try:
+                    await sent_msg.delete()
+                except Exception:
+                    pass
+            if path and os.path.exists(path):
+                try:
+                    os.remove(path)
+                except Exception:
+                    pass
+            await asyncio.sleep(1.0)  # Rate limit safety sleep
+
+# Schedule background startup task
+asyncio.create_task(auto_reupload_on_startup())
