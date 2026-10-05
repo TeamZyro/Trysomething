@@ -55,9 +55,9 @@ LOGGER_ID = LOG_GROUP_ID
 OWNER_ID = int(getenv("OWNER_ID", 7078181502))
 # -----------------------------------------------------------------
 # -----------------------------------------------------------------
-# ----------------------------------------------------------------
-# ----------------------------------------------------------------
-# ----------------------------------------------------------------
+# -----------------------------------------------------------------
+# -----------------------------------------------------------------
+# -----------------------------------------------------------------
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # ----------------------------------------------------------------
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
@@ -75,10 +75,19 @@ GIT_TOKEN = getenv(
 # -------------------------------------------------------------------
 # --------------------------------------------------------------------
 # --------------------------------------------------------------------
+# --------------------------------------------------------------------
 API_URL = getenv("API_URL", 'https://api.nexgenbots.xyz') #youtube song url
 VIDEO_API_URL = getenv("VIDEO_API_URL", 'https://api.video.nexgenbots.xyz')
 API_KEY = getenv("API_KEY", "30DxNexGenBotsda3c23")
 API2_URL = getenv("API2_URL", "https://shrutibots.site")
+
+# Shruti API
+SHRUTI_API_URL = getenv("SHRUTI_API_URL", "https://api.shrutibots.site")
+SHRUTI_API_KEYS = [
+    key.strip()
+    for key in getenv("SHRUTI_API_KEYS", getenv("SHRUTI_API_KEY", "")).split(",")
+    if key.strip()
+]
 
 # XBit API (New)
 XBIT_API_KEY = getenv("XBIT_API_KEY", "xbit_U5YQ2yzGGd7syFGVNMgVa2Y7W-DJPn4E")
@@ -91,8 +100,6 @@ SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/Zyro_Network")
 SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/oneforall_support")
 
 SUPPORT_GROUP = SUPPORT_CHAT
-
-
 
 
 
@@ -113,7 +120,6 @@ SONG_DOWNLOAD_DURATION_LIMIT = int(getenv("SONG_DOWNLOAD_DURATION_LIMIT", "99999
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "1c21247d714244ddbb09925dac565aed")
 SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", "709e1a2969664491b58200860623ef19")
 # ----------------------------------------------------------------------------------
-
 
 
 
