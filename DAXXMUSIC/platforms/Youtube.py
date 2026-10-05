@@ -10,7 +10,32 @@ import aiohttp
 
 API_URL = os.environ.get("SHRUTI_API_URL", "https://api.shrutibots.site")
 
-API_KEY = os.environ.get("SHRUTI_API_KEY", "ShrutiBotsOeVE7tBj4DTZe4bVaSTc") ## Get This API KEY FROM TELEGRAM BOT USERNAME: @SHRUTIAPIBOT 
+# Preferred: SHRUTI_API_KEYS=KEY1,KEY2,KEY3
+# Backward compatible: SHRUTI_API_KEY=KEY1
+API_KEYS = [
+    key.strip()
+    for key in os.environ.get(
+        "SHRUTI_API_KEYS",
+        os.environ.get("SHRUTI_API_KEY", "")
+    ).split(",")
+    if key.strip()
+]
+
+_key_index = 0
+_key_lock = asyncio.Lock()
+
+
+async def get_next_api_key() -> str:
+    """Return the next configured Shruti API key in round-robin order."""
+    global _key_index
+
+    async with _key_lock:
+        if not API_KEYS:
+            raise RuntimeError("No Shruti API key configured")
+        key = API_KEYS[_key_index]
+        _key_index = (_key_index + 1) % len(API_KEYS)
+        return key
+
 
 DOWNLOAD_DIR = "downloads"
 
@@ -31,10 +56,11 @@ async def download_song(link: str) -> str:
         return file_path
 
     try:
+        api_key = await get_next_api_key()
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 f"{API_URL}/download",
-                params={"url": video_id, "type": "audio", "api_key": API_KEY},
+                params={"url": video_id, "type": "audio", "api_key": api_key},
                 timeout=aiohttp.ClientTimeout(total=300)
             ) as resp:
                 if resp.status != 200:
@@ -65,10 +91,11 @@ async def download_video(link: str) -> str:
         return file_path
 
     try:
+        api_key = await get_next_api_key()
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 f"{API_URL}/download",
-                params={"url": video_id, "type": "video", "api_key": API_KEY},
+                params={"url": video_id, "type": "video", "api_key": api_key},
                 timeout=aiohttp.ClientTimeout(total=600)
             ) as resp:
                 if resp.status != 200:
