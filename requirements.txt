@@ -57,7 +57,7 @@ MukeshAPI
 youtube-search
 gpytranslate
 gtts
-mysql-connector-python==9.0.0
+mysql-connector-python==26.7.0
 search_engine_parser
 opencv-python-headless
 replicate
