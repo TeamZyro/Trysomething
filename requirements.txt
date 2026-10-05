@@ -35,7 +35,7 @@ py-yt-search
 qrcode
 requests
 speedtest-cli
-stripe==10.7.0
+stripe==16.0.0
 telebot
 git+https://github.com/TeamZyro/daxxhub.git
 youtube-search-python
