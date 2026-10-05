@@ -1,2 +1,1 @@
-python3 -c "import static_ffmpeg; static_ffmpeg.add_paths()"
-python3 -m DAXXMUSIC
+python3 -c "import os,sys; from static_ffmpeg import run; ffmpeg,ffprobe=run.get_or_fetch_platform_executables_else_raise(); os.environ['PATH']=os.path.dirname(ffprobe)+os.pathsep+os.environ.get('PATH',''); print('FFMPEG:',ffmpeg); print('FFPROBE:',ffprobe); os.execv(sys.executable,[sys.executable,'-m','DAXXMUSIC'])"
