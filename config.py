@@ -30,7 +30,7 @@ API_HASH = getenv("API_HASH", "ff10095d2bb96d43d6eb7a7d9fc85f81")
 
 EVAL = list(map(int, getenv("EVAL", "000000 0000000").split()))
 # ------------------------------------------------------
-BOT_TOKEN = getenv("BOT_TOKEN", "8269694220:AAET7rM8E-EMKNcH-9KhdZBrpvbphS8l110")
+BOT_TOKEN = getenv("BOT_TOKEN", "8412430092:AAHMf7haDPgdTln-tS1aZrh-DUrDT3ZEHZE")
 # --------------------------------------------------------
 BOT_USERNAME = getenv("BOT_USERNAME" , "none")
 # --------------------------------------------------------
@@ -38,7 +38,7 @@ BOT_USERNAME = getenv("BOT_USERNAME" , "none")
 #---------------------------------------------------------------
 #---------------------------------------------------------------
 MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb+srv://nibbanmisal3302:Gokukhan3303@cluster0.0u22b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DB_NAME = getenv("DB_NAME", "WaifuZyro")
+DB_NAME = getenv("DB_NAME", "WaifuZy1ro")
 #---------------------------------------------------------------
 # ----------------------------------------------------------------
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 17000))
@@ -48,7 +48,7 @@ PRIVACY_LINK = getenv("PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-DAX
 
 # ----------------------------------------------------------------
 # Chat id of a group for logging bot's activities
-LOG_GROUP_ID  = int(getenv("LOGGER_ID", -1002009280180))
+LOG_GROUP_ID  = int(getenv("LOGGER_ID", -1003769475549))
 LOGGER_ID = LOG_GROUP_ID
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
@@ -66,7 +66,7 @@ HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 # ----------------------------------------------------------------
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/TeamZyro/WAIFUMUSIC",
+    "https://github.com/TeamZyro/Trysomething",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv(
@@ -135,7 +135,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", "5242880000"))
 # ------------------------------------
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
-STRING1 = getenv("STRING_SESSION", "BQFa2kUAa-djQHdik52oMVExmv1b1zdoMDMaf5L-5rf9IGPfavfvu9Fqj4Y4HUZAQtzAXDmYS06geVAJ3wzOLNWgVB1mEWQBjSDEjHiY5QC6rwYE9IKeaQI0BCz-Tham7kXe5g1XKpVvZQchldF2JbcW1OonO2DUTNfxIlm-zYQgzTqLceZBLXqIZfWPJ0kAHMuj44QYDVyc-ysHOQWI13Q0_q6DarKUcmODDfSM1ek_Oi2c8pOaQlYUUfrcRwRoaxnXM315UQWbxZF_eyvSuT4xY-RqiaWij7IWIHLZsfLZhvrR9EGPRwBcuYl0os7ti8WPQQG7RinC2Mh61Ijo6pQvtoCjeQAAAAG-B05oAA")
+STRING1 = getenv("STRING_SESSION", "BQFbytYAWTF3jptWpd3w_kMq4_np3Tdd2gfxklQAYOH9JXJLxd60PiCMcUasPf1FFozT7T-edLlCXF48OSiWGV6TO5C4TUjB2NB1oCgiElwEttOE4e_L6TIzL2BfswSdHTQgpn1cYSgkW6fXgFLPG4sAkjRW-Y5_S4bQXXkMQjkyEesItfghWkXrqC0g8l9NBtxO7JpHsIGB4aDhuJLqXUcfS8_fH9K9WcFeVZNrF_es_jWrvvgqsmvgnWu3idzpYmRp179EP2f9DXhGpWFB2zYXCNRRhk3JykrQ44kpvib5CPNpIIQ4AT-MRuo0We9UgkyeX9LsDr_LawB9hBZW7xSpT2SsiAAAAAIBiaetAA")
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
