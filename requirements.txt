@@ -50,7 +50,7 @@ bing_image_downloader
 lexica-api
 Faker
 instaloader
-openai==0.28.0
+openai==3.24.0
 pydub
 pyyaml==6.0.1
 MukeshAPI
