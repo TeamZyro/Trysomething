@@ -84,9 +84,9 @@ API2_URL = getenv("API2_URL", "https://shrutibots.site")
 # Shruti API
 SHRUTI_API_URL = getenv("SHRUTI_API_URL", "https://api.shrutibots.site")
 SHRUTI_API_KEYS = [
-    key.strip()
-    for key in getenv("SHRUTI_API_KEYS", getenv("SHRUTI_API_KEY", "")).split(",")
-    if key.strip()
+    "ShrutiBotsGFNPwZL0paMa6BEprQZK",
+    "ShrutiBots1TUj0Zwi953Muk3Uo8rb",
+    "ShrutiBotsOeVE7tBj4DTZe4bVaSTc",
 ]
 
 # XBit API (New)
