@@ -27,7 +27,7 @@ python-dotenv
 #
 python-whois
 pytz
-pyyaml==6.0.1
+pyyaml==6.0.3
 pykeyboard
 python-telegram-bot
 httpx[http2]==0.27.2
@@ -52,7 +52,7 @@ Faker
 instaloader
 openai==0.28.0
 pydub
-pyyaml==6.0.1
+pyyaml==6.0.3
 MukeshAPI
 youtube-search
 gpytranslate
