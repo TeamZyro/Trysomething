@@ -61,3 +61,4 @@ mysql-connector-python==9.0.0
 search_engine_parser
 opencv-python-headless
 replicate
+static-ffmpeg>=3.0,<4
