@@ -8,18 +8,10 @@ from pyrogram.types import Message
 from py_yt import VideosSearch, Playlist
 import aiohttp
 
-API_URL = os.environ.get("SHRUTI_API_URL", "https://api.shrutibots.site")
+from config import SHRUTI_API_URL, SHRUTI_API_KEYS
 
-# Preferred: SHRUTI_API_KEYS=KEY1,KEY2,KEY3
-# Backward compatible: SHRUTI_API_KEY=KEY1
-API_KEYS = [
-    key.strip()
-    for key in os.environ.get(
-        "SHRUTI_API_KEYS",
-        os.environ.get("SHRUTI_API_KEY", "")
-    ).split(",")
-    if key.strip()
-]
+API_URL = SHRUTI_API_URL
+API_KEYS = SHRUTI_API_KEYS
 
 _key_index = 0
 _key_lock = asyncio.Lock()
