@@ -48,7 +48,7 @@ PRIVACY_LINK = getenv("PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-DAX
 
 # ----------------------------------------------------------------
 # Chat id of a group for logging bot's activities
-LOG_GROUP_ID  = int(getenv("LOGGER_ID", -1004394013188))
+LOG_GROUP_ID  = int(getenv("LOGGER_ID", -1003906190992))
 LOGGER_ID = LOG_GROUP_ID
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
