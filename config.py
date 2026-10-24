@@ -82,7 +82,7 @@ API_KEY = getenv("API_KEY", "30DxNexGenBotsda3c23")
 API2_URL = getenv("API2_URL", "https://shrutibots.site")
 
 # Shruti API
-SHRUTI_API_URL = getenv("SHRUTI_API_URL", "https://api.shrutibots.site")
+SHRUTI_API_URL = getenv("SHRUTI_API_URL", "https://api.shrutibots.in")
 SHRUTI_API_KEYS = [
     "ShrutiBotsGFNPwZL0paMa6BEprQZK",
     "ShrutiBots1TUj0Zwi953Muk3Uo8rb",
