@@ -112,14 +112,6 @@ user_nguess_progress = {}
 user_guess_progress = {}
 
 # -------------------------- POWER SETUP --------------------------------
-from DAXXMUSIC.unit.zyro_ban import *
-from DAXXMUSIC.unit.zyro_sudo import *
-from DAXXMUSIC.unit.zyro_react import *
-from DAXXMUSIC.unit.zyro_log import *
-from DAXXMUSIC.unit.zyro_send_img import *
-#from DAXXMUSIC.unit.zyro_guess import *
-from DAXXMUSIC.unit.zyro_rarity import *
-# ------------------------------------------------------------------------
 
 GLOG = "mlohvdryj"
 
